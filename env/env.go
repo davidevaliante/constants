@@ -1,6 +1,8 @@
 package env
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type Env int
 
@@ -18,10 +20,12 @@ var envMap = map[string]Env{
 	"production":  Production,
 }
 
-func EnvFromString(s string) (*Env, error) {
+func EnvFromString(s string) *Env {
 	env, exists := envMap[s]
 	if !exists {
-		return nil, fmt.Errorf("unsupported Env string format: %s", s)
+		fmt.Println(fmt.Sprintf("unable to map value %s to env, defaulting to env.Local", s))
+		env, _ = envMap[s]
+		return &env
 	}
-	return &env, nil
+	return &env
 }
